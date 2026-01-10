@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заявка на сервер</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            color: var(--tg-theme-text-color, #000000);
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Форма заявки</h2>
+    <form id="appForm">
+        <div class="form-group">
+            <label for="nickname">1. Ваш ник:</label>
+            <input type="text" id="nickname" required>
+        </div>
+
+        <div class="form-group">
+            <label for="desiredRole">2. Должность (Билдер, Модер и т.д.):</label>
+            <input type="text" id="desiredRole" required>
+        </div>
+
+        <div class="form-group">
+            <label for="age">3. Ваш возраст:</label>
+            <input type="number" id="age" required>
+        </div>
+
+        <div class="form-group">
+            <label for="donate">4. Ваш донат на сервере:</label>
+            <input type="text" id="donate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="adequacy">5. Адекватность (1-10):</label>
+            <select id="adequacy">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10" selected>10</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="about">6. О себе:</label>
+            <textarea id="about" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="whyUs">7. Почему мы должны вас взять?</label>
+            <textarea id="whyUs" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="exactRole">8. На какую должность хотите встать?</label>
+            <input type="text" id="exactRole" required>
+        </div>
+    </form>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand(); 
+
+        // Main Button setup
+        tg.MainButton.text = "Отправить заявку";
+        tg.MainButton.show();
+
+        tg.MainButton.onClick(function() {
+            const form = document.getElementById('appForm');
+            
+            // Basic validation
+            if (!form.checkValidity()) {
+                tg.showPopup({
+                    title: 'Ошибка',
+                    message: 'Пожалуйста, заполните все обязательные поля.',
+                    buttons: [{type: 'ok'}]
+                });
+                return;
+            }
+
+            const data = {
+                nickname: document.getElementById('nickname').value,
+                desiredRole: document.getElementById('desiredRole').value,
+                age: document.getElementById('age').value,
+                donate: document.getElementById('donate').value,
+                adequacy: document.getElementById('adequacy').value,
+                about: document.getElementById('about').value,
+                whyUs: document.getElementById('whyUs').value,
+                exactRole: document.getElementById('exactRole').value
+            };
+
+            // Send data back to the bot
+            tg.sendData(JSON.stringify(data));
+        });
+    </script>
+</body>
+</html>
