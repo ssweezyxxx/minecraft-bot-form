@@ -2,142 +2,256 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Заявка на сервер</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            --bg-color: #18181b;
+            --card-bg: #27272a;
+            --text-color: #f4f4f5;
+            --accent-color: #22c55e; /* Minecraft Green */
+            --input-bg: #3f3f46;
+            --border-color: #52525b;
+            --placeholder-color: #a1a1aa;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 20px;
+            box-sizing: border-box;
         }
+
+        /* Container for better spacing on large screens */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         h2 {
             text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+            color: var(--accent-color);
+            letter-spacing: 0.5px;
         }
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
         }
+
         input, textarea, select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
-            color: var(--tg-theme-text-color, #000000);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: white;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            outline: none;
+            -webkit-appearance: none; /* Remove default styling on iOS */
         }
+
+        /* Focus state for inputs */
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+        }
+
+        /* Placeholder styling */
+        ::placeholder {
+            color: var(--placeholder-color);
+        }
+
         textarea {
             resize: vertical;
+            min-height: 80px;
         }
-        button {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
+
+        /* Custom style for Select dropdown arrow */
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: var(--placeholder-color);
+            pointer-events: none;
+            font-size: 12px;
+        }
+
+        /* Remove standard scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        /* Hint text */
+        .hint {
+            font-size: 12px;
+            color: var(--placeholder-color);
+            margin-top: 4px;
         }
     </style>
 </head>
 <body>
 
-    <h2>Форма заявки</h2>
-    <form id="appForm">
-        <div class="form-group">
-            <label for="nickname">1. Ваш ник:</label>
-            <input type="text" id="nickname" required>
-        </div>
+    <div class="container">
+        <h2>📝 Заявка в команду</h2>
+        <form id="appForm">
+            
+            <div class="form-group">
+                <label for="nickname">1. Ваш ник:</label>
+                <input type="text" id="nickname" placeholder="Steve" required>
+            </div>
 
-        <div class="form-group">
-            <label for="desiredRole">2. Должность (Билдер, Модер и т.д.):</label>
-            <input type="text" id="desiredRole" required>
-        </div>
+            <div class="form-group">
+                <label for="desiredRole">2. Должность которую вы хотите:</label>
+                <div class="select-wrapper">
+                    <select id="desiredRole" required>
+                        <option value="" disabled selected>Выберите привилегию...</option>
+                        <option value="Игрок">Игрок</option>
+                        <option value="Вип">Вип</option>
+                        <option value="Премиум">Премиум</option>
+                        <option value="Креатив">Креатив</option>
+                        <option value="Гл. Админ">Гл. Админ</option>
+                        <option value="Лорд">Лорд</option>
+                        <option value="Элита">Элита</option>
+                        <option value="Модер">Модер</option>
+                        <option value="Легенда">Легенда</option>
+                        <option value="Король">Король</option>
+                        <option value="Оператор">Оператор</option>
+                        <option value="Спонсор">Спонсор</option>
+                        <option value="Владелец">Владелец</option>
+                        <option value="АнтиГрифер">АнтиГрифер</option>
+                        <option value="Властелин">Властелин</option>
+                        <option value="Админ">Админ</option>
+                    </select>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label for="age">3. Ваш возраст:</label>
-            <input type="number" id="age" required>
-        </div>
+            <div class="form-group">
+                <label for="age">3. Ваш возраст:</label>
+                <input type="number" id="age" placeholder="14" required>
+            </div>
 
-        <div class="form-group">
-            <label for="donate">4. Ваш донат на сервере:</label>
-            <input type="text" id="donate" required>
-        </div>
+            <div class="form-group">
+                <label for="donate">4. Ваш донат на сервере:</label>
+                <input type="text" id="donate" placeholder="Нет / Вип" required>
+            </div>
 
-        <div class="form-group">
-            <label for="adequacy">5. Адекватность (1-10):</label>
-            <select id="adequacy">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10" selected>10</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="adequacy">5. Оцените вашу адекватность:</label>
+                <div class="select-wrapper">
+                    <select id="adequacy">
+                        <option value="1">1 - Очень плохо</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - Средне</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10" selected>10 - Отлично</option>
+                    </select>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label for="about">6. О себе:</label>
-            <textarea id="about" rows="3"></textarea>
-        </div>
+            <div class="form-group">
+                <label for="about">6. Расскажите о себе:</label>
+                <textarea id="about" rows="3" placeholder="Увлечения, опыт игры..."></textarea>
+                <div class="hint">Необязательно, но повышает шансы</div>
+            </div>
 
-        <div class="form-group">
-            <label for="whyUs">7. Почему мы должны вас взять?</label>
-            <textarea id="whyUs" rows="3"></textarea>
-        </div>
+            <div class="form-group">
+                <label for="whyUs">7. Почему мы должны вас взять?</label>
+                <textarea id="whyUs" rows="3" placeholder="Я ответственный и..."></textarea>
+                <div class="hint">Необязательно, но повышает шансы</div>
+            </div>
 
-        <div class="form-group">
-            <label for="exactRole">8. На какую должность хотите встать?</label>
-            <input type="text" id="exactRole" required>
-        </div>
-    </form>
+            <div class="form-group">
+                <label for="exactRole">8. На какую должность хотите встать?</label>
+                <input type="text" id="exactRole" placeholder="Например: Helper" required>
+                <div class="hint">Уточните тех. название или отдел</div>
+            </div>
+
+            <div style="height: 20px;"></div>
+        </form>
+    </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand(); 
+        
+        // Initialize the app
+        tg.expand();
+        
+        // Theme integration (optional, but good practice)
+        // If the user uses a light theme in TG, we can respect it, 
+        // but here we force Dark Mode style for the "Gaming" look defined in CSS.
+        tg.setHeaderColor('#18181b'); 
+        tg.setBackgroundColor('#18181b');
 
-        // Main Button setup
-        tg.MainButton.text = "Отправить заявку";
+        // Main Button Setup
+        tg.MainButton.text = "ОТПРАВИТЬ ЗАЯВКУ";
+        tg.MainButton.color = "#22c55e"; // Green color
+        tg.MainButton.textColor = "#ffffff";
         tg.MainButton.show();
 
+        // Handle button click
         tg.MainButton.onClick(function() {
             const form = document.getElementById('appForm');
             
-            // Basic validation
+            // Validation
             if (!form.checkValidity()) {
                 tg.showPopup({
-                    title: 'Ошибка',
+                    title: 'Внимание',
                     message: 'Пожалуйста, заполните все обязательные поля.',
                     buttons: [{type: 'ok'}]
                 });
                 return;
             }
 
+            // Collect Data
             const data = {
-                nickname: document.getElementById('nickname').value,
+                nickname: document.getElementById('nickname').value.trim(),
                 desiredRole: document.getElementById('desiredRole').value,
                 age: document.getElementById('age').value,
-                donate: document.getElementById('donate').value,
+                donate: document.getElementById('donate').value.trim(),
                 adequacy: document.getElementById('adequacy').value,
-                about: document.getElementById('about').value,
-                whyUs: document.getElementById('whyUs').value,
-                exactRole: document.getElementById('exactRole').value
+                about: document.getElementById('about').value.trim(),
+                whyUs: document.getElementById('whyUs').value.trim(),
+                exactRole: document.getElementById('exactRole').value.trim()
             };
 
-            // Send data back to the bot
+            // Send Data
             tg.sendData(JSON.stringify(data));
         });
     </script>
