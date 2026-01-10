@@ -10,10 +10,11 @@
             --bg-color: #18181b;
             --card-bg: #27272a;
             --text-color: #f4f4f5;
-            --accent-color: #22c55e; /* Minecraft Green */
+            --accent-color: #22c55e;
             --input-bg: #3f3f46;
             --border-color: #52525b;
             --placeholder-color: #a1a1aa;
+            --hover-color: #52525b;
         }
 
         body {
@@ -23,61 +24,57 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Container for better spacing on large screens */
         .container {
             max-width: 600px;
             margin: 0 auto;
+            padding-bottom: 20px;
         }
 
         h2 {
             text-align: center;
             margin-bottom: 25px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--accent-color);
-            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .form-group {
             margin-bottom: 20px;
             background-color: var(--card-bg);
             padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 14px;
             font-weight: 600;
             color: var(--text-color);
+            opacity: 0.9;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             box-sizing: border-box;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border: 2px solid var(--input-bg);
+            border-radius: 12px;
             background-color: var(--input-bg);
             color: white;
             font-size: 16px;
             transition: all 0.2s ease;
             outline: none;
-            -webkit-appearance: none; /* Remove default styling on iOS */
         }
 
-        /* Focus state for inputs */
-        input:focus, textarea:focus, select:focus {
+        input:focus, textarea:focus {
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
-        }
-
-        /* Placeholder styling */
-        ::placeholder {
-            color: var(--placeholder-color);
+            background-color: #2e2e33;
         }
 
         textarea {
@@ -85,76 +82,165 @@
             min-height: 80px;
         }
 
-        /* Custom style for Select dropdown arrow */
-        .select-wrapper {
+        /* --- CUSTOM BEAUTIFUL DROPDOWN STYLES --- */
+        .custom-select-wrapper {
             position: relative;
+            user-select: none;
         }
-        
-        .select-wrapper::after {
-            content: '▼';
+
+        .custom-select {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .custom-select__trigger {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-color);
+            background: var(--input-bg);
+            border: 2px solid var(--input-bg);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .custom-select__trigger:hover {
+            background: #45454d;
+        }
+
+        .custom-select.open .custom-select__trigger {
+            border-color: var(--accent-color);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .arrow {
+            position: relative;
+            height: 10px;
+            width: 10px;
+        }
+
+        .arrow::before, .arrow::after {
+            content: "";
             position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
-            color: var(--placeholder-color);
+            bottom: 0px;
+            width: 0.15rem;
+            height: 100%;
+            transition: all 0.3s;
+            background-color: var(--placeholder-color);
+        }
+
+        .arrow::before {
+            left: -3px;
+            transform: rotate(-45deg);
+        }
+
+        .arrow::after {
+            left: 3px;
+            transform: rotate(45deg);
+        }
+
+        .custom-select.open .arrow::before {
+            transform: rotate(45deg);
+        }
+
+        .custom-select.open .arrow::after {
+            transform: rotate(-45deg);
+        }
+
+        .custom-options {
+            position: absolute;
+            display: block;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border: 2px solid var(--accent-color);
+            border-top: 0;
+            background: var(--card-bg);
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
             pointer-events: none;
-            font-size: 12px;
+            z-index: 100;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            max-height: 250px; /* Scroll if too long */
+            overflow-y: auto;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transform: translateY(-10px);
         }
 
-        /* Remove standard scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .custom-select.open .custom-options {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+            transform: translateY(0);
         }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
+
+        .custom-option {
+            position: relative;
+            display: block;
+            padding: 12px 14px;
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        ::-webkit-scrollbar-thumb {
+
+        .custom-option:last-of-type {
+            border-bottom: none;
+        }
+
+        .custom-option:hover, .custom-option.selected {
+            background-color: var(--accent-color);
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* Scrollbar for the list */
+        .custom-options::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-options::-webkit-scrollbar-track {
+            background: var(--card-bg);
+        }
+        .custom-options::-webkit-scrollbar-thumb {
             background: var(--border-color);
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
-        /* Hint text */
+        /* --- END CUSTOM STYLES --- */
+
         .hint {
             font-size: 12px;
             color: var(--placeholder-color);
-            margin-top: 4px;
+            margin-top: 6px;
+            margin-left: 2px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>📝 Заявка в команду</h2>
+        <h2>📝 Анкета</h2>
         <form id="appForm">
             
             <div class="form-group">
                 <label for="nickname">1. Ваш ник:</label>
-                <input type="text" id="nickname" placeholder="Steve" required>
+                <input type="text" id="nickname" placeholder="Например: Steve" required>
             </div>
 
             <div class="form-group">
                 <label for="desiredRole">2. Должность которую вы хотите:</label>
-                <div class="select-wrapper">
-                    <select id="desiredRole" required>
-                        <option value="" disabled selected>Выберите привилегию...</option>
-                        <option value="Игрок">Игрок</option>
-                        <option value="Вип">Вип</option>
-                        <option value="Премиум">Премиум</option>
-                        <option value="Креатив">Креатив</option>
-                        <option value="Гл. Админ">Гл. Админ</option>
-                        <option value="Лорд">Лорд</option>
-                        <option value="Элита">Элита</option>
-                        <option value="Модер">Модер</option>
-                        <option value="Легенда">Легенда</option>
-                        <option value="Король">Король</option>
-                        <option value="Оператор">Оператор</option>
-                        <option value="Спонсор">Спонсор</option>
-                        <option value="Владелец">Владелец</option>
-                        <option value="АнтиГрифер">АнтиГрифер</option>
-                        <option value="Властелин">Властелин</option>
-                        <option value="Админ">Админ</option>
-                    </select>
-                </div>
+                <input type="text" id="desiredRole" placeholder="Например: Хелпер, Модератор" required>
             </div>
 
             <div class="form-group">
@@ -163,26 +249,39 @@
             </div>
 
             <div class="form-group">
-                <label for="donate">4. Ваш донат на сервере:</label>
-                <input type="text" id="donate" placeholder="Нет / Вип" required>
+                <label>4. Ваш донат на сервере (Привилегия):</label>
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" id="donateSelect">
+                        <div class="custom-select__trigger">
+                            <span id="donateText">Выберите привилегию...</span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <span class="custom-option" data-value="Игрок">Игрок</span>
+                            <span class="custom-option" data-value="Вип">Вип</span>
+                            <span class="custom-option" data-value="Премиум">Премиум</span>
+                            <span class="custom-option" data-value="Креатив">Креатив</span>
+                            <span class="custom-option" data-value="Админ">Админ</span>
+                            <span class="custom-option" data-value="Гл. Админ">Гл. Админ</span>
+                            <span class="custom-option" data-value="Лорд">Лорд</span>
+                            <span class="custom-option" data-value="Элита">Элита</span>
+                            <span class="custom-option" data-value="Модер">Модер</span>
+                            <span class="custom-option" data-value="Легенда">Легенда</span>
+                            <span class="custom-option" data-value="Король">Король</span>
+                            <span class="custom-option" data-value="Оператор">Оператор</span>
+                            <span class="custom-option" data-value="Спонсор">Спонсор</span>
+                            <span class="custom-option" data-value="Владелец">Владелец</span>
+                            <span class="custom-option" data-value="АнтиГрифер">АнтиГрифер</span>
+                            <span class="custom-option" data-value="Властелин">Властелин</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="donate" required> 
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="adequacy">5. Оцените вашу адекватность:</label>
-                <div class="select-wrapper">
-                    <select id="adequacy">
-                        <option value="1">1 - Очень плохо</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5 - Средне</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10" selected>10 - Отлично</option>
-                    </select>
-                </div>
+                <label for="adequacy">5. Адекватность (от 1 до 10):</label>
+                <input type="number" id="adequacy" min="1" max="10" placeholder="10" required>
             </div>
 
             <div class="form-group">
@@ -193,14 +292,14 @@
 
             <div class="form-group">
                 <label for="whyUs">7. Почему мы должны вас взять?</label>
-                <textarea id="whyUs" rows="3" placeholder="Я ответственный и..."></textarea>
+                <textarea id="whyUs" rows="3" placeholder="Ваши сильные стороны..."></textarea>
                 <div class="hint">Необязательно, но повышает шансы</div>
             </div>
 
             <div class="form-group">
                 <label for="exactRole">8. На какую должность хотите встать?</label>
-                <input type="text" id="exactRole" placeholder="Например: Helper" required>
-                <div class="hint">Уточните тех. название или отдел</div>
+                <input type="text" id="exactRole" placeholder="Например: Helper (Тех. отдел)" required>
+                <div class="hint">Уточните, если отличается от пункта 2</div>
             </div>
 
             <div style="height: 20px;"></div>
@@ -209,49 +308,88 @@
 
     <script>
         const tg = window.Telegram.WebApp;
-        
-        // Initialize the app
         tg.expand();
-        
-        // Theme integration (optional, but good practice)
-        // If the user uses a light theme in TG, we can respect it, 
-        // but here we force Dark Mode style for the "Gaming" look defined in CSS.
         tg.setHeaderColor('#18181b'); 
         tg.setBackgroundColor('#18181b');
 
-        // Main Button Setup
+        // --- Custom Dropdown Logic ---
+        const donateSelect = document.querySelector('#donateSelect');
+        const donateTrigger = donateSelect.querySelector('.custom-select__trigger');
+        const donateText = document.getElementById('donateText');
+        const donateInput = document.getElementById('donate');
+        const options = donateSelect.querySelectorAll('.custom-option');
+
+        // Toggle Open/Close
+        donateTrigger.addEventListener('click', function() {
+            donateSelect.classList.toggle('open');
+        });
+
+        // Handle Option Click
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                donateSelect.classList.remove('open');
+                
+                // Remove selected class from others
+                options.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+
+                // Update text and hidden input value
+                const value = this.getAttribute('data-value');
+                donateText.textContent = value;
+                donateInput.value = value;
+                
+                // Style the text to look "filled"
+                donateText.style.color = '#fff';
+            });
+        });
+
+        // Close dropdown if clicked outside
+        window.addEventListener('click', function(e) {
+            if (!donateSelect.contains(e.target)) {
+                donateSelect.classList.remove('open');
+            }
+        });
+        // -----------------------------
+
         tg.MainButton.text = "ОТПРАВИТЬ ЗАЯВКУ";
-        tg.MainButton.color = "#22c55e"; // Green color
+        tg.MainButton.color = "#22c55e"; 
         tg.MainButton.textColor = "#ffffff";
         tg.MainButton.show();
 
-        // Handle button click
         tg.MainButton.onClick(function() {
             const form = document.getElementById('appForm');
             
-            // Validation
-            if (!form.checkValidity()) {
+            // Check manual validation for Hidden Input (Donate)
+            if (document.getElementById('donate').value === "") {
                 tg.showPopup({
-                    title: 'Внимание',
-                    message: 'Пожалуйста, заполните все обязательные поля.',
+                    title: 'Ошибка',
+                    message: 'Пожалуйста, выберите ваш донат из списка (пункт 4).',
                     buttons: [{type: 'ok'}]
                 });
                 return;
             }
 
-            // Collect Data
+            // Standard validation
+            if (!form.checkValidity()) {
+                tg.showPopup({
+                    title: 'Ошибка',
+                    message: 'Пожалуйста, заполните все поля.',
+                    buttons: [{type: 'ok'}]
+                });
+                return;
+            }
+
             const data = {
                 nickname: document.getElementById('nickname').value.trim(),
-                desiredRole: document.getElementById('desiredRole').value,
+                desiredRole: document.getElementById('desiredRole').value.trim(),
                 age: document.getElementById('age').value,
-                donate: document.getElementById('donate').value.trim(),
+                donate: document.getElementById('donate').value, // Gets value from hidden input
                 adequacy: document.getElementById('adequacy').value,
                 about: document.getElementById('about').value.trim(),
                 whyUs: document.getElementById('whyUs').value.trim(),
                 exactRole: document.getElementById('exactRole').value.trim()
             };
 
-            // Send Data
             tg.sendData(JSON.stringify(data));
         });
     </script>
