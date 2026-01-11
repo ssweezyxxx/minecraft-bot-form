@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Заявка на сервер</title>
+    <title>Заявка Yokai</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
             --bg-color: #18181b;
             --card-bg: #27272a;
             --text-color: #f4f4f5;
-            --accent-color: #FFCD74; /* Желтый акцент */
+            --accent-color: #FFCD74;
             --text-on-accent: #18181b;
             --input-bg: #3f3f46;
             --border-color: #52525b;
@@ -27,16 +27,45 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 0; /* Убрал отступы body, чтобы картинка могла быть на всю ширину при желании */
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            padding-bottom: 80px; /* Отступ чтобы кнопка не перекрывала контент */
+            padding-bottom: 80px;
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
+            padding: 20px; /* Вернул отступы для контента */
         }
+
+        /* --- STYLES FOR HEADER IMAGE --- */
+        .header-banner {
+            width: 100%;
+            height: auto;
+            border-radius: 16px; /* Скругление углов картинки */
+            display: block;
+            margin-bottom: 10px;
+            
+            /* БЛОКИРОВКА КАРТИНКИ */
+            pointer-events: none; /* Отключает клики и выделение */
+            user-select: none;    /* Отключает выделение текста/блока */
+            -webkit-user-select: none;
+            -webkit-user-drag: none; /* Отключает перетаскивание */
+            object-fit: cover;
+        }
+
+        .header-subtitle {
+            text-align: center;
+            color: var(--placeholder-color); /* Серый цвет */
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        /* ------------------------------- */
 
         h2 {
             text-align: center;
@@ -46,6 +75,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             font-size: 28px;
+            display: none; /* Скрыл старый заголовок "Анкета", так как теперь есть картинка. Если нужен - удали эту строку */
         }
 
         .form-group {
@@ -62,7 +92,7 @@
         }
 
         .form-group.error {
-            border: 1px solid var(--accent-color); /* Подсветка желтым при ошибке */
+            border: 1px solid var(--accent-color);
             box-shadow: 0 0 10px rgba(255, 205, 116, 0.1);
             animation: shake 0.4s ease-in-out;
         }
@@ -152,84 +182,32 @@
             font-size: 13px; color: var(--placeholder-color); margin-top: 8px; margin-left: 2px;
         }
 
-        /* --- NEW GLASSMORPHISM TOAST (BOTTOM) --- */
+        /* --- NOTIFICATION TOAST (BOTTOM) --- */
         #notification-container {
-            position: fixed;
-            bottom: 30px; /* Отступ снизу */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            width: 90%;
-            max-width: 400px;
-            pointer-events: none; /* Чтобы сквозь пустой контейнер можно было кликать */
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 9999; width: 90%; max-width: 400px; pointer-events: none;
         }
-
         .toast {
             pointer-events: auto;
-            /* Стекло */
             background: rgba(24, 24, 27, 0.75); 
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px); /* Для iPhone */
-            
-            /* Границы и форма */
-            border: 1px solid var(--accent-color);
-            border-radius: 20px;
-            padding: 16px;
-            
-            /* Тень и текст */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            color: #fff;
-            
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            
-            /* Анимация */
-            opacity: 0;
-            transform: translateY(50px) scale(0.9); /* Выезжает снизу */
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Пружинистый эффект */
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--accent-color); border-radius: 20px; padding: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #fff;
+            display: flex; align-items: center; gap: 15px;
+            opacity: 0; transform: translateY(50px) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
+        .toast.show { opacity: 1; transform: translateY(0) scale(1); }
         .toast-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            min-width: 32px;
+            display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-width: 32px;
         }
-        
-        /* Стиль SVG иконки */
-        .toast-icon svg {
-            width: 100%;
-            height: 100%;
-            fill: #ffffff; /* Белая иконка */
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
-        }
-
-        .toast-content {
-            flex-grow: 1;
-        }
-
+        .toast-icon svg { width: 100%; height: 100%; fill: #ffffff; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
+        .toast-content { flex-grow: 1; }
         .toast-title {
-            font-weight: 800;
-            font-size: 16px;
-            margin-bottom: 2px;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 800; font-size: 16px; margin-bottom: 2px;
+            color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.5px;
         }
-
-        .toast-msg {
-            font-size: 14px;
-            color: #e4e4e7;
-            line-height: 1.3;
-        }
+        .toast-msg { font-size: 14px; color: #e4e4e7; line-height: 1.3; }
     </style>
 </head>
 <body>
@@ -237,7 +215,11 @@
     <div id="notification-container"></div>
 
     <div class="container">
-        <h2>📝 Анкета</h2>
+        
+        <img src="header.jpg" alt="Banner" class="header-banner" oncontextmenu="return false;" draggable="false">
+        
+        <p class="header-subtitle">Подача заявки в клан Yokai</p>
+
         <form id="appForm">
             <div class="form-group" id="group-nickname">
                 <label for="nickname">1. Ваш ник:</label>
@@ -338,18 +320,13 @@
             if (!donateSelect.contains(e.target)) donateSelect.classList.remove('open');
         });
 
-        // --- UPDATED NOTIFICATION SYSTEM (SVG + BLUR) ---
+        // --- NOTIFICATION SYSTEM ---
         function showNotification(title, message) {
             const container = document.getElementById('notification-container');
-            
-            // Удаляем старую плашку, если она есть, чтобы не накладывались
             container.innerHTML = '';
 
             const toast = document.createElement('div');
             toast.className = 'toast';
-            
-            // Здесь мы вставляем SVG иконку (белую)
-            // Иконка "Exclamation Circle"
             const svgIcon = `
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
@@ -365,21 +342,13 @@
             `;
             
             container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
 
-            // Анимация появления
-            requestAnimationFrame(() => {
-                toast.classList.add('show');
-            });
+            if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
 
-            // Вибрация
-            if(tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('error');
-            }
-
-            // Удаление
             setTimeout(() => {
                 toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400); // Ждем конца анимации
+                setTimeout(() => toast.remove(), 400);
             }, 3000);
         }
 
@@ -402,7 +371,6 @@
 
             let hasError = false;
 
-            // Логика проверки: находим первую ошибку и показываем уведомление
             if (!nickname) {
                 document.getElementById('group-nickname').classList.add('error');
                 showNotification('Внимание', 'Вы забыли указать свой Ник!');
