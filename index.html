@@ -5,20 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Заявка на сервер</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg-color: #18181b;
             --card-bg: #27272a;
             --text-color: #f4f4f5;
-            --accent-color: #22c55e;
+            --accent-color: #FFCD74; /* Новый цвет */
+            --text-on-accent: #18181b; /* Черный текст на желтом фоне */
             --input-bg: #3f3f46;
             --border-color: #52525b;
             --placeholder-color: #a1a1aa;
-            --hover-color: #52525b;
+            --error-color: #ef4444;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Outfit', sans-serif; /* Применяем новый шрифт */
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -30,7 +35,7 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding-bottom: 20px;
+            padding-bottom: 40px;
         }
 
         h2 {
@@ -40,34 +45,55 @@
             color: var(--accent-color);
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-size: 28px;
         }
 
         .form-group {
             margin-bottom: 20px;
             background-color: var(--card-bg);
-            padding: 15px;
+            padding: 20px;
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s;
+        }
+        
+        .form-group:active {
+            transform: scale(0.99);
+        }
+
+        /* Анимация ошибки */
+        .form-group.error {
+            border: 1px solid var(--error-color);
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
         }
 
         label {
             display: block;
             margin-bottom: 10px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--text-color);
             opacity: 0.9;
         }
 
-        input, textarea, select {
+        input, textarea {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             box-sizing: border-box;
             border: 2px solid var(--input-bg);
             border-radius: 12px;
             background-color: var(--input-bg);
             color: white;
             font-size: 16px;
+            font-family: 'Outfit', sans-serif;
             transition: all 0.2s ease;
             outline: none;
         }
@@ -79,10 +105,10 @@
 
         textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
         }
 
-        /* --- CUSTOM BEAUTIFUL DROPDOWN STYLES --- */
+        /* --- CUSTOM DROPDOWN STYLES --- */
         .custom-select-wrapper {
             position: relative;
             user-select: none;
@@ -99,7 +125,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px;
+            padding: 16px;
             font-size: 16px;
             font-weight: 400;
             color: var(--text-color);
@@ -108,10 +134,7 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s;
-        }
-
-        .custom-select__trigger:hover {
-            background: #45454d;
+            font-family: 'Outfit', sans-serif;
         }
 
         .custom-select.open .custom-select__trigger {
@@ -136,23 +159,11 @@
             background-color: var(--placeholder-color);
         }
 
-        .arrow::before {
-            left: -3px;
-            transform: rotate(-45deg);
-        }
+        .arrow::before { left: -3px; transform: rotate(-45deg); }
+        .arrow::after { left: 3px; transform: rotate(45deg); }
 
-        .arrow::after {
-            left: 3px;
-            transform: rotate(45deg);
-        }
-
-        .custom-select.open .arrow::before {
-            transform: rotate(45deg);
-        }
-
-        .custom-select.open .arrow::after {
-            transform: rotate(-45deg);
-        }
+        .custom-select.open .arrow::before { transform: rotate(45deg); }
+        .custom-select.open .arrow::after { transform: rotate(-45deg); }
 
         .custom-options {
             position: absolute;
@@ -170,7 +181,7 @@
             z-index: 100;
             border-bottom-left-radius: 12px;
             border-bottom-right-radius: 12px;
-            max-height: 250px; /* Scroll if too long */
+            max-height: 250px;
             overflow-y: auto;
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             transform: translateY(-10px);
@@ -186,7 +197,7 @@
         .custom-option {
             position: relative;
             display: block;
-            padding: 12px 14px;
+            padding: 14px 16px;
             font-size: 16px;
             font-weight: 400;
             color: var(--text-color);
@@ -195,60 +206,98 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .custom-option:last-of-type {
-            border-bottom: none;
-        }
-
         .custom-option:hover, .custom-option.selected {
             background-color: var(--accent-color);
-            color: #000;
-            font-weight: 600;
+            color: var(--text-on-accent);
+            font-weight: 700;
         }
-
-        /* Scrollbar for the list */
-        .custom-options::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-options::-webkit-scrollbar-track {
-            background: var(--card-bg);
-        }
-        .custom-options::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
-        }
-
         /* --- END CUSTOM STYLES --- */
 
         .hint {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--placeholder-color);
-            margin-top: 6px;
+            margin-top: 8px;
             margin-left: 2px;
+        }
+
+        /* --- NOTIFICATION TOAST --- */
+        #notification-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .toast {
+            background: rgba(39, 39, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid var(--error-color);
+            color: #fff;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast-icon {
+            font-size: 24px;
+        }
+
+        .toast-content {
+            flex-grow: 1;
+        }
+
+        .toast-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 2px;
+            color: var(--error-color);
+        }
+
+        .toast-msg {
+            font-size: 14px;
+            color: #d4d4d8;
         }
     </style>
 </head>
 <body>
 
+    <div id="notification-container"></div>
+
     <div class="container">
         <h2>📝 Анкета</h2>
         <form id="appForm">
             
-            <div class="form-group">
+            <div class="form-group" id="group-nickname">
                 <label for="nickname">1. Ваш ник:</label>
-                <input type="text" id="nickname" placeholder="Например: Steve" required>
+                <input type="text" id="nickname" placeholder="Например: Steve" autocomplete="off">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="group-desiredRole">
                 <label for="desiredRole">2. Должность которую вы хотите:</label>
-                <input type="text" id="desiredRole" placeholder="Например: Хелпер, Модератор" required>
+                <input type="text" id="desiredRole" placeholder="Например: Хелпер, Модератор" autocomplete="off">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="group-age">
                 <label for="age">3. Ваш возраст:</label>
-                <input type="number" id="age" placeholder="14" required>
+                <input type="number" id="age" placeholder="14" autocomplete="off">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="group-donate">
                 <label>4. Ваш донат на сервере (Привилегия):</label>
                 <div class="custom-select-wrapper">
                     <div class="custom-select" id="donateSelect">
@@ -275,13 +324,13 @@
                             <span class="custom-option" data-value="Властелин">Властелин</span>
                         </div>
                     </div>
-                    <input type="hidden" id="donate" required> 
+                    <input type="hidden" id="donate"> 
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="group-adequacy">
                 <label for="adequacy">5. Адекватность (от 1 до 10):</label>
-                <input type="number" id="adequacy" min="1" max="10" placeholder="10" required>
+                <input type="number" id="adequacy" min="1" max="10" placeholder="10">
             </div>
 
             <div class="form-group">
@@ -295,13 +344,7 @@
                 <textarea id="whyUs" rows="3" placeholder="Ваши сильные стороны..."></textarea>
                 <div class="hint">Необязательно, но повышает шансы</div>
             </div>
-
-            <div class="form-group">
-                <label for="exactRole">8. На какую должность хотите встать?</label>
-                <input type="text" id="exactRole" placeholder="Например: Helper (Тех. отдел)" required>
-                <div class="hint">Уточните, если отличается от пункта 2</div>
-            </div>
-
+            
             <div style="height: 20px;"></div>
         </form>
     </div>
@@ -319,75 +362,116 @@
         const donateInput = document.getElementById('donate');
         const options = donateSelect.querySelectorAll('.custom-option');
 
-        // Toggle Open/Close
         donateTrigger.addEventListener('click', function() {
             donateSelect.classList.toggle('open');
         });
 
-        // Handle Option Click
         options.forEach(option => {
             option.addEventListener('click', function() {
                 donateSelect.classList.remove('open');
-                
-                // Remove selected class from others
                 options.forEach(opt => opt.classList.remove('selected'));
                 this.classList.add('selected');
-
-                // Update text and hidden input value
                 const value = this.getAttribute('data-value');
                 donateText.textContent = value;
                 donateInput.value = value;
-                
-                // Style the text to look "filled"
                 donateText.style.color = '#fff';
+                
+                // Убираем ошибку если была
+                document.getElementById('group-donate').classList.remove('error');
             });
         });
 
-        // Close dropdown if clicked outside
         window.addEventListener('click', function(e) {
             if (!donateSelect.contains(e.target)) {
                 donateSelect.classList.remove('open');
             }
         });
-        // -----------------------------
 
+        // --- Notification System ---
+        function showNotification(title, message) {
+            const container = document.getElementById('notification-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <div class="toast-icon">⚠️</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-msg">${message}</div>
+                </div>
+            `;
+            container.appendChild(toast);
+
+            // Анимация появления
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            // Вибрация (Haptic)
+            if(tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('error');
+            }
+
+            // Удаление через 3 секунды
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- Main Button Logic ---
         tg.MainButton.text = "ОТПРАВИТЬ ЗАЯВКУ";
-        tg.MainButton.color = "#22c55e"; 
-        tg.MainButton.textColor = "#ffffff";
+        tg.MainButton.color = "#FFCD74"; // Желтый цвет
+        tg.MainButton.textColor = "#18181b"; // Черный текст для контраста
         tg.MainButton.show();
 
         tg.MainButton.onClick(function() {
-            const form = document.getElementById('appForm');
-            
-            // Check manual validation for Hidden Input (Donate)
-            if (document.getElementById('donate').value === "") {
-                tg.showPopup({
-                    title: 'Ошибка',
-                    message: 'Пожалуйста, выберите ваш донат из списка (пункт 4).',
-                    buttons: [{type: 'ok'}]
-                });
-                return;
+            // Очистка старых ошибок
+            document.querySelectorAll('.form-group').forEach(el => el.classList.remove('error'));
+
+            // Сбор значений
+            const nickname = document.getElementById('nickname').value.trim();
+            const desiredRole = document.getElementById('desiredRole').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const donate = document.getElementById('donate').value;
+            const adequacy = document.getElementById('adequacy').value.trim();
+            const about = document.getElementById('about').value.trim();
+            const whyUs = document.getElementById('whyUs').value.trim();
+
+            // Валидация
+            let hasError = false;
+
+            if (!nickname) {
+                document.getElementById('group-nickname').classList.add('error');
+                showNotification('Ошибка', 'Пожалуйста, укажите ваш ник!');
+                hasError = true;
+            } else if (!desiredRole) {
+                document.getElementById('group-desiredRole').classList.add('error');
+                showNotification('Ошибка', 'Какую должность вы хотите?');
+                hasError = true;
+            } else if (!age) {
+                document.getElementById('group-age').classList.add('error');
+                showNotification('Ошибка', 'Укажите ваш возраст!');
+                hasError = true;
+            } else if (!donate) {
+                document.getElementById('group-donate').classList.add('error');
+                showNotification('Ошибка', 'Выберите ваш донат!');
+                hasError = true;
+            } else if (!adequacy) {
+                document.getElementById('group-adequacy').classList.add('error');
+                showNotification('Ошибка', 'Оцените адекватность!');
+                hasError = true;
             }
 
-            // Standard validation
-            if (!form.checkValidity()) {
-                tg.showPopup({
-                    title: 'Ошибка',
-                    message: 'Пожалуйста, заполните все поля.',
-                    buttons: [{type: 'ok'}]
-                });
-                return;
-            }
+            if (hasError) return;
 
             const data = {
-                nickname: document.getElementById('nickname').value.trim(),
-                desiredRole: document.getElementById('desiredRole').value.trim(),
-                age: document.getElementById('age').value,
-                donate: document.getElementById('donate').value, // Gets value from hidden input
-                adequacy: document.getElementById('adequacy').value,
-                about: document.getElementById('about').value.trim(),
-                whyUs: document.getElementById('whyUs').value.trim(),
-                exactRole: document.getElementById('exactRole').value.trim()
+                nickname,
+                desiredRole,
+                age,
+                donate,
+                adequacy,
+                about,
+                whyUs
             };
 
             tg.sendData(JSON.stringify(data));
