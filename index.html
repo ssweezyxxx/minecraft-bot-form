@@ -14,8 +14,8 @@
             --bg-color: #18181b;
             --card-bg: #27272a;
             --text-color: #f4f4f5;
-            --accent-color: #FFCD74; /* Новый цвет */
-            --text-on-accent: #18181b; /* Черный текст на желтом фоне */
+            --accent-color: #FFCD74; /* Желтый акцент */
+            --text-on-accent: #18181b;
             --input-bg: #3f3f46;
             --border-color: #52525b;
             --placeholder-color: #a1a1aa;
@@ -23,19 +23,19 @@
         }
 
         body {
-            font-family: 'Outfit', sans-serif; /* Применяем новый шрифт */
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            padding-bottom: 80px; /* Отступ чтобы кнопка не перекрывала контент */
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding-bottom: 40px;
         }
 
         h2 {
@@ -54,16 +54,16 @@
             padding: 20px;
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.2s;
+            transition: transform 0.2s, border-color 0.2s;
         }
         
         .form-group:active {
             transform: scale(0.99);
         }
 
-        /* Анимация ошибки */
         .form-group.error {
-            border: 1px solid var(--error-color);
+            border: 1px solid var(--accent-color); /* Подсветка желтым при ошибке */
+            box-shadow: 0 0 10px rgba(255, 205, 116, 0.1);
             animation: shake 0.4s ease-in-out;
         }
 
@@ -108,153 +108,108 @@
             min-height: 100px;
         }
 
-        /* --- CUSTOM DROPDOWN STYLES --- */
-        .custom-select-wrapper {
-            position: relative;
-            user-select: none;
-        }
-
-        .custom-select {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
+        /* --- DROPDOWN STYLES --- */
+        .custom-select-wrapper { position: relative; user-select: none; }
+        .custom-select { position: relative; display: flex; flex-direction: column; }
         .custom-select__trigger {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 400;
-            color: var(--text-color);
-            background: var(--input-bg);
-            border: 2px solid var(--input-bg);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Outfit', sans-serif;
+            position: relative; display: flex; align-items: center; justify-content: space-between;
+            padding: 16px; font-size: 16px; font-weight: 400; color: var(--text-color);
+            background: var(--input-bg); border: 2px solid var(--input-bg); border-radius: 12px;
+            cursor: pointer; transition: all 0.3s; font-family: 'Outfit', sans-serif;
         }
-
         .custom-select.open .custom-select__trigger {
             border-color: var(--accent-color);
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0; border-bottom-right-radius: 0;
         }
-
-        .arrow {
-            position: relative;
-            height: 10px;
-            width: 10px;
-        }
-
+        .arrow { position: relative; height: 10px; width: 10px; }
         .arrow::before, .arrow::after {
-            content: "";
-            position: absolute;
-            bottom: 0px;
-            width: 0.15rem;
-            height: 100%;
-            transition: all 0.3s;
-            background-color: var(--placeholder-color);
+            content: ""; position: absolute; bottom: 0px; width: 0.15rem; height: 100%;
+            transition: all 0.3s; background-color: var(--placeholder-color);
         }
-
         .arrow::before { left: -3px; transform: rotate(-45deg); }
         .arrow::after { left: 3px; transform: rotate(45deg); }
-
         .custom-select.open .arrow::before { transform: rotate(45deg); }
         .custom-select.open .arrow::after { transform: rotate(-45deg); }
-
         .custom-options {
-            position: absolute;
-            display: block;
-            top: 100%;
-            left: 0;
-            right: 0;
-            border: 2px solid var(--accent-color);
-            border-top: 0;
-            background: var(--card-bg);
-            transition: all 0.3s;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            z-index: 100;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-            max-height: 250px;
-            overflow-y: auto;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            position: absolute; display: block; top: 100%; left: 0; right: 0;
+            border: 2px solid var(--accent-color); border-top: 0; background: var(--card-bg);
+            transition: all 0.3s; opacity: 0; visibility: hidden; pointer-events: none; z-index: 100;
+            border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+            max-height: 250px; overflow-y: auto; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             transform: translateY(-10px);
         }
-
-        .custom-select.open .custom-options {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: all;
-            transform: translateY(0);
-        }
-
+        .custom-select.open .custom-options { opacity: 1; visibility: visible; pointer-events: all; transform: translateY(0); }
         .custom-option {
-            position: relative;
-            display: block;
-            padding: 14px 16px;
-            font-size: 16px;
-            font-weight: 400;
-            color: var(--text-color);
-            cursor: pointer;
-            transition: all 0.2s;
+            position: relative; display: block; padding: 14px 16px; font-size: 16px;
+            font-weight: 400; color: var(--text-color); cursor: pointer; transition: all 0.2s;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-
         .custom-option:hover, .custom-option.selected {
-            background-color: var(--accent-color);
-            color: var(--text-on-accent);
-            font-weight: 700;
+            background-color: var(--accent-color); color: var(--text-on-accent); font-weight: 700;
         }
-        /* --- END CUSTOM STYLES --- */
 
         .hint {
-            font-size: 13px;
-            color: var(--placeholder-color);
-            margin-top: 8px;
-            margin-left: 2px;
+            font-size: 13px; color: var(--placeholder-color); margin-top: 8px; margin-left: 2px;
         }
 
-        /* --- NOTIFICATION TOAST --- */
+        /* --- NEW GLASSMORPHISM TOAST (BOTTOM) --- */
         #notification-container {
             position: fixed;
-            top: 20px;
+            bottom: 30px; /* Отступ снизу */
             left: 50%;
             transform: translateX(-50%);
             z-index: 9999;
             width: 90%;
             max-width: 400px;
+            pointer-events: none; /* Чтобы сквозь пустой контейнер можно было кликать */
         }
 
         .toast {
-            background: rgba(39, 39, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-left: 4px solid var(--error-color);
-            color: #fff;
+            pointer-events: auto;
+            /* Стекло */
+            background: rgba(24, 24, 27, 0.75); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); /* Для iPhone */
+            
+            /* Границы и форма */
+            border: 1px solid var(--accent-color);
+            border-radius: 20px;
             padding: 16px;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            
+            /* Тень и текст */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            color: #fff;
+            
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
+            gap: 15px;
+            
+            /* Анимация */
             opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
+            transform: translateY(50px) scale(0.9); /* Выезжает снизу */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Пружинистый эффект */
         }
 
         .toast.show {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .toast-icon {
-            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+        }
+        
+        /* Стиль SVG иконки */
+        .toast-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: #ffffff; /* Белая иконка */
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
         }
 
         .toast-content {
@@ -262,15 +217,18 @@
         }
 
         .toast-title {
-            font-weight: 700;
+            font-weight: 800;
             font-size: 16px;
             margin-bottom: 2px;
-            color: var(--error-color);
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .toast-msg {
             font-size: 14px;
-            color: #d4d4d8;
+            color: #e4e4e7;
+            line-height: 1.3;
         }
     </style>
 </head>
@@ -281,7 +239,6 @@
     <div class="container">
         <h2>📝 Анкета</h2>
         <form id="appForm">
-            
             <div class="form-group" id="group-nickname">
                 <label for="nickname">1. Ваш ник:</label>
                 <input type="text" id="nickname" placeholder="Например: Steve" autocomplete="off">
@@ -355,16 +312,14 @@
         tg.setHeaderColor('#18181b'); 
         tg.setBackgroundColor('#18181b');
 
-        // --- Custom Dropdown Logic ---
+        // Logic for Dropdown
         const donateSelect = document.querySelector('#donateSelect');
         const donateTrigger = donateSelect.querySelector('.custom-select__trigger');
         const donateText = document.getElementById('donateText');
         const donateInput = document.getElementById('donate');
         const options = donateSelect.querySelectorAll('.custom-option');
 
-        donateTrigger.addEventListener('click', function() {
-            donateSelect.classList.toggle('open');
-        });
+        donateTrigger.addEventListener('click', () => donateSelect.classList.toggle('open'));
 
         options.forEach(option => {
             option.addEventListener('click', function() {
@@ -375,30 +330,40 @@
                 donateText.textContent = value;
                 donateInput.value = value;
                 donateText.style.color = '#fff';
-                
-                // Убираем ошибку если была
                 document.getElementById('group-donate').classList.remove('error');
             });
         });
 
-        window.addEventListener('click', function(e) {
-            if (!donateSelect.contains(e.target)) {
-                donateSelect.classList.remove('open');
-            }
+        window.addEventListener('click', (e) => {
+            if (!donateSelect.contains(e.target)) donateSelect.classList.remove('open');
         });
 
-        // --- Notification System ---
+        // --- UPDATED NOTIFICATION SYSTEM (SVG + BLUR) ---
         function showNotification(title, message) {
             const container = document.getElementById('notification-container');
+            
+            // Удаляем старую плашку, если она есть, чтобы не накладывались
+            container.innerHTML = '';
+
             const toast = document.createElement('div');
             toast.className = 'toast';
+            
+            // Здесь мы вставляем SVG иконку (белую)
+            // Иконка "Exclamation Circle"
+            const svgIcon = `
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+            `;
+
             toast.innerHTML = `
-                <div class="toast-icon">⚠️</div>
+                <div class="toast-icon">${svgIcon}</div>
                 <div class="toast-content">
                     <div class="toast-title">${title}</div>
                     <div class="toast-msg">${message}</div>
                 </div>
             `;
+            
             container.appendChild(toast);
 
             // Анимация появления
@@ -406,29 +371,27 @@
                 toast.classList.add('show');
             });
 
-            // Вибрация (Haptic)
+            // Вибрация
             if(tg.HapticFeedback) {
                 tg.HapticFeedback.notificationOccurred('error');
             }
 
-            // Удаление через 3 секунды
+            // Удаление
             setTimeout(() => {
                 toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
+                setTimeout(() => toast.remove(), 400); // Ждем конца анимации
             }, 3000);
         }
 
-        // --- Main Button Logic ---
+        // Main Button Logic
         tg.MainButton.text = "ОТПРАВИТЬ ЗАЯВКУ";
-        tg.MainButton.color = "#FFCD74"; // Желтый цвет
-        tg.MainButton.textColor = "#18181b"; // Черный текст для контраста
+        tg.MainButton.color = "#FFCD74";
+        tg.MainButton.textColor = "#18181b";
         tg.MainButton.show();
 
         tg.MainButton.onClick(function() {
-            // Очистка старых ошибок
             document.querySelectorAll('.form-group').forEach(el => el.classList.remove('error'));
 
-            // Сбор значений
             const nickname = document.getElementById('nickname').value.trim();
             const desiredRole = document.getElementById('desiredRole').value.trim();
             const age = document.getElementById('age').value.trim();
@@ -437,43 +400,34 @@
             const about = document.getElementById('about').value.trim();
             const whyUs = document.getElementById('whyUs').value.trim();
 
-            // Валидация
             let hasError = false;
 
+            // Логика проверки: находим первую ошибку и показываем уведомление
             if (!nickname) {
                 document.getElementById('group-nickname').classList.add('error');
-                showNotification('Ошибка', 'Пожалуйста, укажите ваш ник!');
+                showNotification('Внимание', 'Вы забыли указать свой Ник!');
                 hasError = true;
             } else if (!desiredRole) {
                 document.getElementById('group-desiredRole').classList.add('error');
-                showNotification('Ошибка', 'Какую должность вы хотите?');
+                showNotification('Внимание', 'Укажите желаемую должность!');
                 hasError = true;
             } else if (!age) {
                 document.getElementById('group-age').classList.add('error');
-                showNotification('Ошибка', 'Укажите ваш возраст!');
+                showNotification('Внимание', 'Напишите ваш возраст!');
                 hasError = true;
             } else if (!donate) {
                 document.getElementById('group-donate').classList.add('error');
-                showNotification('Ошибка', 'Выберите ваш донат!');
+                showNotification('Внимание', 'Выберите вашу привилегию!');
                 hasError = true;
             } else if (!adequacy) {
                 document.getElementById('group-adequacy').classList.add('error');
-                showNotification('Ошибка', 'Оцените адекватность!');
+                showNotification('Внимание', 'Оцените свою адекватность!');
                 hasError = true;
             }
 
             if (hasError) return;
 
-            const data = {
-                nickname,
-                desiredRole,
-                age,
-                donate,
-                adequacy,
-                about,
-                whyUs
-            };
-
+            const data = { nickname, desiredRole, age, donate, adequacy, about, whyUs };
             tg.sendData(JSON.stringify(data));
         });
     </script>
