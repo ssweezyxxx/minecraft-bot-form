@@ -27,7 +27,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 0; /* Убрал отступы body, чтобы картинка могла быть на всю ширину при желании */
+            padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
             padding-bottom: 80px;
@@ -36,47 +36,39 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px; /* Вернул отступы для контента */
+            padding: 20px;
         }
 
         /* --- STYLES FOR HEADER IMAGE --- */
         .header-banner {
-            width: 100%;
+            /* Уменьшаем размер и центрируем */
+            width: 85%; 
             height: auto;
-            border-radius: 16px; /* Скругление углов картинки */
             display: block;
-            margin-bottom: 10px;
+            margin: 0 auto 10px auto; /* Центровка + отступ снизу */
+            
+            /* Убрали скругление */
+            border-radius: 0; 
             
             /* БЛОКИРОВКА КАРТИНКИ */
-            pointer-events: none; /* Отключает клики и выделение */
-            user-select: none;    /* Отключает выделение текста/блока */
+            pointer-events: none;
+            user-select: none;
             -webkit-user-select: none;
-            -webkit-user-drag: none; /* Отключает перетаскивание */
-            object-fit: cover;
+            -webkit-user-drag: none;
+            object-fit: contain;
         }
 
         .header-subtitle {
             text-align: center;
-            color: var(--placeholder-color); /* Серый цвет */
+            color: var(--placeholder-color);
             font-size: 14px;
             font-weight: 500;
             margin-top: 0;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         /* ------------------------------- */
-
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            font-weight: 800;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 28px;
-            display: none; /* Скрыл старый заголовок "Анкета", так как теперь есть картинка. Если нужен - удали эту строку */
-        }
 
         .form-group {
             margin-bottom: 20px;
@@ -216,7 +208,7 @@
 
     <div class="container">
         
-        <img src="header.jpg" alt="Banner" class="header-banner" oncontextmenu="return false;" draggable="false">
+        <img src="header.png" alt="Banner" class="header-banner" oncontextmenu="return false;" draggable="false">
         
         <p class="header-subtitle">Подача заявки в клан Yokai</p>
 
@@ -272,7 +264,7 @@
                 <input type="number" id="adequacy" min="1" max="10" placeholder="10">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="group-adequacy">
                 <label for="about">6. Расскажите о себе:</label>
                 <textarea id="about" rows="3" placeholder="Увлечения, опыт игры..."></textarea>
                 <div class="hint">Необязательно, но повышает шансы</div>
