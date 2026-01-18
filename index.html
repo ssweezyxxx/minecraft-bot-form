@@ -219,8 +219,23 @@
             </div>
 
             <div class="form-group" id="group-desiredRole">
-                <label for="desiredRole">2. Должность которую вы хотите:</label>
-                <input type="text" id="desiredRole" placeholder="Например: Хелпер, Модератор" autocomplete="off">
+                <label>2. Желаемая должность:</label>
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" id="roleSelect">
+                        <div class="custom-select__trigger">
+                            <span id="roleText">Выберите должность...</span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <span class="custom-option" data-value="Глава портала">Глава портала</span>
+                            <span class="custom-option" data-value="Модератор (MC)">Модератор (MC)</span>
+                            <span class="custom-option" data-value="Модератор (TG)">Модератор (TG)</span>
+                            <span class="custom-option" data-value="Билдер">Билдер</span>
+                            <span class="custom-option" data-value="Пвпшер">Пвпшер</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="desiredRole"> 
+                </div>
             </div>
 
             <div class="form-group" id="group-age">
