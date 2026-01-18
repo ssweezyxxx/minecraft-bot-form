@@ -26,63 +26,31 @@
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
             padding-bottom: 80px;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
 
-        /* --- STYLES FOR HEADER IMAGE --- */
         .header-banner {
-            /* Уменьшаем размер и центрируем */
-            width: 85%; 
-            height: auto;
-            display: block;
-            margin: 0 auto 10px auto; /* Центровка + отступ снизу */
-            
-            /* Убрали скругление */
-            border-radius: 0; 
-            
-            /* БЛОКИРОВКА КАРТИНКИ */
-            pointer-events: none;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-user-drag: none;
-            object-fit: contain;
+            width: 85%; height: auto; display: block; margin: 0 auto 10px auto;
+            border-radius: 0; pointer-events: none; user-select: none;
+            -webkit-user-select: none; -webkit-user-drag: none; object-fit: contain;
         }
 
         .header-subtitle {
-            text-align: center;
-            color: var(--placeholder-color);
-            font-size: 14px;
-            font-weight: 500;
-            margin-top: 0;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            text-align: center; color: var(--placeholder-color); font-size: 14px;
+            font-weight: 500; margin-top: 0; margin-bottom: 30px;
+            text-transform: uppercase; letter-spacing: 1px;
         }
-        /* ------------------------------- */
 
         .form-group {
-            margin-bottom: 20px;
-            background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 20px; background-color: var(--card-bg); padding: 20px;
+            border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);
             transition: transform 0.2s, border-color 0.2s;
         }
-        
-        .form-group:active {
-            transform: scale(0.99);
-        }
-
+        .form-group:active { transform: scale(0.99); }
         .form-group.error {
             border: 1px solid var(--accent-color);
             box-shadow: 0 0 10px rgba(255, 205, 116, 0.1);
@@ -97,40 +65,19 @@
             100% { transform: translateX(0); }
         }
 
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-color);
-            opacity: 0.9;
-        }
+        label { display: block; margin-bottom: 10px; font-size: 15px; font-weight: 600; color: var(--text-color); opacity: 0.9; }
 
         input, textarea {
-            width: 100%;
-            padding: 16px;
-            box-sizing: border-box;
-            border: 2px solid var(--input-bg);
-            border-radius: 12px;
-            background-color: var(--input-bg);
-            color: white;
-            font-size: 16px;
-            font-family: 'Outfit', sans-serif;
-            transition: all 0.2s ease;
-            outline: none;
+            width: 100%; padding: 16px; box-sizing: border-box;
+            border: 2px solid var(--input-bg); border-radius: 12px;
+            background-color: var(--input-bg); color: white;
+            font-size: 16px; font-family: 'Outfit', sans-serif;
+            transition: all 0.2s ease; outline: none;
         }
+        input:focus, textarea:focus { border-color: var(--accent-color); background-color: #2e2e33; }
+        textarea { resize: vertical; min-height: 100px; }
 
-        input:focus, textarea:focus {
-            border-color: var(--accent-color);
-            background-color: #2e2e33;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* --- DROPDOWN STYLES --- */
+        /* DROPDOWN */
         .custom-select-wrapper { position: relative; user-select: none; }
         .custom-select { position: relative; display: flex; flex-direction: column; }
         .custom-select__trigger {
@@ -139,10 +86,7 @@
             background: var(--input-bg); border: 2px solid var(--input-bg); border-radius: 12px;
             cursor: pointer; transition: all 0.3s; font-family: 'Outfit', sans-serif;
         }
-        .custom-select.open .custom-select__trigger {
-            border-color: var(--accent-color);
-            border-bottom-left-radius: 0; border-bottom-right-radius: 0;
-        }
+        .custom-select.open .custom-select__trigger { border-color: var(--accent-color); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
         .arrow { position: relative; height: 10px; width: 10px; }
         .arrow::before, .arrow::after {
             content: ""; position: absolute; bottom: 0px; width: 0.15rem; height: 100%;
@@ -166,22 +110,17 @@
             font-weight: 400; color: var(--text-color); cursor: pointer; transition: all 0.2s;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .custom-option:hover, .custom-option.selected {
-            background-color: var(--accent-color); color: var(--text-on-accent); font-weight: 700;
-        }
+        .custom-option:hover, .custom-option.selected { background-color: var(--accent-color); color: var(--text-on-accent); font-weight: 700; }
 
-        .hint {
-            font-size: 13px; color: var(--placeholder-color); margin-top: 8px; margin-left: 2px;
-        }
+        .hint { font-size: 13px; color: var(--placeholder-color); margin-top: 8px; margin-left: 2px; }
 
-        /* --- NOTIFICATION TOAST (BOTTOM) --- */
+        /* TOAST */
         #notification-container {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             z-index: 9999; width: 90%; max-width: 400px; pointer-events: none;
         }
         .toast {
-            pointer-events: auto;
-            background: rgba(24, 24, 27, 0.75); 
+            pointer-events: auto; background: rgba(24, 24, 27, 0.75); 
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--accent-color); border-radius: 20px; padding: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #fff;
@@ -190,15 +129,10 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .toast.show { opacity: 1; transform: translateY(0) scale(1); }
-        .toast-icon {
-            display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-width: 32px;
-        }
+        .toast-icon { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-width: 32px; }
         .toast-icon svg { width: 100%; height: 100%; fill: #ffffff; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
         .toast-content { flex-grow: 1; }
-        .toast-title {
-            font-weight: 800; font-size: 16px; margin-bottom: 2px;
-            color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.5px;
-        }
+        .toast-title { font-weight: 800; font-size: 16px; margin-bottom: 2px; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.5px; }
         .toast-msg { font-size: 14px; color: #e4e4e7; line-height: 1.3; }
     </style>
 </head>
@@ -209,7 +143,6 @@
     <div class="container">
         
         <img src="header.png" alt="Banner" class="header-banner" oncontextmenu="return false;" draggable="false">
-        
         <p class="header-subtitle">Подача заявки в клан Yokai</p>
 
         <form id="appForm">
@@ -227,11 +160,11 @@
                             <div class="arrow"></div>
                         </div>
                         <div class="custom-options">
-                            <span class="custom-option" data-value="Глава портала">Глава портала</span>
-                            <span class="custom-option" data-value="Модератор (MC)">Модератор (MC)</span>
-                            <span class="custom-option" data-value="Модератор (TG)">Модератор (TG)</span>
-                            <span class="custom-option" data-value="Билдер">Билдер</span>
-                            <span class="custom-option" data-value="Пвпшер">Пвпшер</span>
+                            <span class="custom-option" data-value="Глава портала">🛡 Глава портала</span>
+                            <span class="custom-option" data-value="Модератор (MC)">⚖️ Модератор (MC)</span>
+                            <span class="custom-option" data-value="Модератор (TG)">💬 Модератор (TG)</span>
+                            <span class="custom-option" data-value="Билдер">🏗 Билдер</span>
+                            <span class="custom-option" data-value="Пвпшер">⚔️ Пвпшер</span>
                         </div>
                     </div>
                     <input type="hidden" id="desiredRole"> 
@@ -244,7 +177,7 @@
             </div>
 
             <div class="form-group" id="group-donate">
-                <label>4. Ваш донат на сервере (Привилегия):</label>
+                <label>4. Ваш донат на сервере:</label>
                 <div class="custom-select-wrapper">
                     <div class="custom-select" id="donateSelect">
                         <div class="custom-select__trigger">
@@ -279,7 +212,7 @@
                 <input type="number" id="adequacy" min="1" max="10" placeholder="10">
             </div>
 
-            <div class="form-group" id="group-adequacy">
+            <div class="form-group">
                 <label for="about">6. Расскажите о себе:</label>
                 <textarea id="about" rows="3" placeholder="Увлечения, опыт игры..."></textarea>
                 <div class="hint">Необязательно, но повышает шансы</div>
@@ -298,68 +231,61 @@
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-        tg.setHeaderColor('#18181b'); 
-        tg.setBackgroundColor('#18181b');
+        tg.setHeaderColor('#18181b'); tg.setBackgroundColor('#18181b');
 
-        // Logic for Dropdown
-        const donateSelect = document.querySelector('#donateSelect');
-        const donateTrigger = donateSelect.querySelector('.custom-select__trigger');
-        const donateText = document.getElementById('donateText');
-        const donateInput = document.getElementById('donate');
-        const options = donateSelect.querySelectorAll('.custom-option');
+        // Logic for Dropdowns
+        function setupDropdown(idWrapper, idInput, idText) {
+            const wrapper = document.querySelector(idWrapper);
+            const trigger = wrapper.querySelector('.custom-select__trigger');
+            const textSpan = document.getElementById(idText);
+            const input = document.getElementById(idInput);
+            const options = wrapper.querySelectorAll('.custom-option');
 
-        donateTrigger.addEventListener('click', () => donateSelect.classList.toggle('open'));
-
-        options.forEach(option => {
-            option.addEventListener('click', function() {
-                donateSelect.classList.remove('open');
-                options.forEach(opt => opt.classList.remove('selected'));
-                this.classList.add('selected');
-                const value = this.getAttribute('data-value');
-                donateText.textContent = value;
-                donateInput.value = value;
-                donateText.style.color = '#fff';
-                document.getElementById('group-donate').classList.remove('error');
+            trigger.addEventListener('click', () => {
+                document.querySelectorAll('.custom-select').forEach(el => {
+                    if (el !== wrapper) el.classList.remove('open');
+                });
+                wrapper.classList.toggle('open');
             });
-        });
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    wrapper.classList.remove('open');
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const value = this.getAttribute('data-value');
+                    textSpan.textContent = value;
+                    input.value = value;
+                    textSpan.style.color = '#fff';
+                    wrapper.parentElement.parentElement.classList.remove('error');
+                });
+            });
+        }
+
+        setupDropdown('#donateSelect', 'donate', 'donateText');
+        setupDropdown('#roleSelect', 'desiredRole', 'roleText');
 
         window.addEventListener('click', (e) => {
-            if (!donateSelect.contains(e.target)) donateSelect.classList.remove('open');
+            if (!e.target.closest('.custom-select')) {
+                document.querySelectorAll('.custom-select').forEach(el => el.classList.remove('open'));
+            }
         });
 
-        // --- NOTIFICATION SYSTEM ---
+        // NOTIFICATION
         function showNotification(title, message) {
             const container = document.getElementById('notification-container');
             container.innerHTML = '';
-
             const toast = document.createElement('div');
             toast.className = 'toast';
-            const svgIcon = `
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                </svg>
-            `;
-
-            toast.innerHTML = `
-                <div class="toast-icon">${svgIcon}</div>
-                <div class="toast-content">
-                    <div class="toast-title">${title}</div>
-                    <div class="toast-msg">${message}</div>
-                </div>
-            `;
-            
+            const svgIcon = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`;
+            toast.innerHTML = `<div class="toast-icon">${svgIcon}</div><div class="toast-content"><div class="toast-title">${title}</div><div class="toast-msg">${message}</div></div>`;
             container.appendChild(toast);
             requestAnimationFrame(() => toast.classList.add('show'));
-
             if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 3000);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
         }
 
-        // Main Button Logic
+        // BUTTON
         tg.MainButton.text = "ОТПРАВИТЬ ЗАЯВКУ";
         tg.MainButton.color = "#FFCD74";
         tg.MainButton.textColor = "#18181b";
@@ -378,27 +304,11 @@
 
             let hasError = false;
 
-            if (!nickname) {
-                document.getElementById('group-nickname').classList.add('error');
-                showNotification('Внимание', 'Вы забыли указать свой Ник!');
-                hasError = true;
-            } else if (!desiredRole) {
-                document.getElementById('group-desiredRole').classList.add('error');
-                showNotification('Внимание', 'Укажите желаемую должность!');
-                hasError = true;
-            } else if (!age) {
-                document.getElementById('group-age').classList.add('error');
-                showNotification('Внимание', 'Напишите ваш возраст!');
-                hasError = true;
-            } else if (!donate) {
-                document.getElementById('group-donate').classList.add('error');
-                showNotification('Внимание', 'Выберите вашу привилегию!');
-                hasError = true;
-            } else if (!adequacy) {
-                document.getElementById('group-adequacy').classList.add('error');
-                showNotification('Внимание', 'Оцените свою адекватность!');
-                hasError = true;
-            }
+            if (!nickname) { document.getElementById('group-nickname').classList.add('error'); showNotification('Внимание', 'Вы забыли указать свой Ник!'); hasError = true; }
+            else if (!desiredRole) { document.getElementById('group-desiredRole').classList.add('error'); showNotification('Внимание', 'Укажите желаемую должность!'); hasError = true; }
+            else if (!age) { document.getElementById('group-age').classList.add('error'); showNotification('Внимание', 'Напишите ваш возраст!'); hasError = true; }
+            else if (!donate) { document.getElementById('group-donate').classList.add('error'); showNotification('Внимание', 'Выберите ваш донат!'); hasError = true; }
+            else if (!adequacy) { document.getElementById('group-adequacy').classList.add('error'); showNotification('Внимание', 'Оцените свою адекватность!'); hasError = true; }
 
             if (hasError) return;
 
